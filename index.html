@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForSWorks - Home</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            background-color: #111;
+        }
+
+        /* Full-screen background slider */
+        .bg-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .bg-slide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 100%;
+            object-fit: cover;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .bg-slide.active {
+            opacity: 1;
+        }
+
+        /* Dark overlay to make the center strip pop */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Central thumbnail strip container */
+        .nav-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 5px;
+        }
+
+        /* Custom scrollbar for the strip if images overflow */
+        .thumbnail-strip::-webkit-scrollbar {
+            height: 6px;
+        }
+        .thumbnail-strip::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .thumb {
+            width: 120px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .thumb:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .thumb.active {
+            opacity: 1;
+            border-color: #fff;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+
+        /* Top Navigation Menu */
+        .nav-menu {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px 25px;
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 15px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            transform: scale(1.05);
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            text-align: center;
+            color: white;
+            max-width: 600px;
+            padding: 20px 30px;
+        }
+
+        .content-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .content-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Hide content sections by default */
+        .content-section {
+            display: none;
+        }
+
+        .home-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-slider" id="bgSlider"></div>
+    <div class="overlay"></div>
+
+    <!-- Top Navigation Menu -->
+    <nav class="nav-menu">
+        <a href="index.html" class="active">Home</a>
+        <a href="prices.html">Prices</a>
+        <a href="about.html">About</a>
+    </nav>
+
+    <!-- Home Content Section -->
+    <section class="content-section home-content">
+        <h1>Welcome to Our Site</h1>
+        <p>Discover amazing experiences with our premium services. Browse through our gallery below and explore what we have to offer.</p>
+        <a href="prices.html" class="cta-button">View Prices</a>
+    </section>
+
+    <div class="nav-container">
+        <div class="thumbnail-strip" id="thumbStrip"></div>
+    </div>
+
+    <script>
+        // Array of local background videos
+        const videos = [
+            "c1.mp4",
+            "c2.mp4",
+            "c3.mp4"
+        ];
+
+        const bgSlider = document.getElementById('bgSlider');
+        const thumbStrip = document.getElementById('thumbStrip');
+
+        // Dynamically build the background video slides and thumbnail strip
+        videos.forEach((src, index) => {
+            // Create background video slide
+            const slide = document.createElement('video');
+            slide.classList.add('bg-slide');
+            slide.src = src;
+            slide.muted = true;
+            slide.loop = true;
+            slide.playsInline = true;
+            slide.autoplay = true;
+            // Only preload/play the first video eagerly; others load on demand
+            slide.preload = index === 0 ? 'auto' : 'none';
+            if (index === 0) {
+                slide.classList.add('active');
+            }
+            bgSlider.appendChild(slide);
+
+            // Create thumbnail (small muted preview video)
+            const thumb = document.createElement('video');
+            thumb.src = src;
+            thumb.classList.add('thumb');
+            thumb.muted = true;
+            thumb.loop = true;
+            thumb.playsInline = true;
+            thumb.preload = 'metadata';
+            if (index === 0) {
+                thumb.classList.add('active');
+                thumb.autoplay = true;
+            }
+
+            // Add click event to switch videos
+            thumb.addEventListener('click', () => changeVideo(index));
+            thumbStrip.appendChild(thumb);
+        });
+
+        // Start the first background video playing
+        const firstSlide = bgSlider.querySelector('.bg-slide');
+        if (firstSlide) {
+            firstSlide.play().catch(() => {});
+        }
+
+        // Function to handle switching background videos
+        function changeVideo(index) {
+            // Update active background
+            const slides = document.querySelectorAll('.bg-slide');
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) return;
+                slide.pause();
+                if (slide.preload === 'auto') {
+                    slide.currentTime = 0;
+                }
+            });
+
+            const activeSlide = slides[index];
+            activeSlide.classList.add('active');
+            activeSlide.preload = 'auto';
+            activeSlide.play().catch(() => {});
+
+            // Update active thumbnail
+            const thumbs = document.querySelectorAll('.thumb');
+            thumbs.forEach((thumb, i) => {
+                thumb.classList.remove('active');
+                if (i !== index) thumb.pause();
+            });
+            const activeThumb = thumbs[index];
+            activeThumb.classList.add('active');
+            activeThumb.play().catch(() => {});
+        }
+    </script>
+</body>
+</html>
