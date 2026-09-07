@@ -229,22 +229,22 @@
     </div>
 
     <script>
-        // Array of local background videos
-        const videos = [
-            "c1.mp4",
-            "c2.mp4",
-            "c3.mp4"
+        // Paired video + thumbnail image arrays
+        const slides = [
+            { video: "c1.mp4", thumb: "f1.png" },
+            { video: "c2.mp4", thumb: "f2.png" },
+            { video: "c3.mp4", thumb: "f3.png" }
         ];
 
         const bgSlider = document.getElementById('bgSlider');
         const thumbStrip = document.getElementById('thumbStrip');
 
         // Dynamically build the background video slides and thumbnail strip
-        videos.forEach((src, index) => {
+        slides.forEach((item, index) => {
             // Create background video slide
             const slide = document.createElement('video');
             slide.classList.add('bg-slide');
-            slide.src = src;
+            slide.src = item.video;
             slide.muted = true;
             slide.loop = true;
             slide.playsInline = true;
@@ -256,17 +256,13 @@
             }
             bgSlider.appendChild(slide);
 
-            // Create thumbnail (small muted preview video)
-            const thumb = document.createElement('video');
-            thumb.src = src;
+            // Create thumbnail as an image element
+            const thumb = document.createElement('img');
+            thumb.src = item.thumb;
+            thumb.alt = '';
             thumb.classList.add('thumb');
-            thumb.muted = true;
-            thumb.loop = true;
-            thumb.playsInline = true;
-            thumb.preload = 'metadata';
             if (index === 0) {
                 thumb.classList.add('active');
-                thumb.autoplay = true;
             }
 
             // Add click event to switch videos
@@ -302,11 +298,9 @@
             const thumbs = document.querySelectorAll('.thumb');
             thumbs.forEach((thumb, i) => {
                 thumb.classList.remove('active');
-                if (i !== index) thumb.pause();
             });
             const activeThumb = thumbs[index];
             activeThumb.classList.add('active');
-            activeThumb.play().catch(() => {});
         }
     </script>
 </body>
