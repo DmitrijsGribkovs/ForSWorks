@@ -203,6 +203,14 @@
         .home-content {
             display: block;
         }
+
+        /* Mobile: hide paragraph and button, keep only the heading */
+        @media (max-width: 768px) {
+            .content-section p,
+            .cta-button {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -219,8 +227,8 @@
 
     <!-- Home Content Section -->
     <section class="content-section home-content">
-        <h1>Welcome to Our Site</h1>
-        <p>Discover amazing experiences with our premium services. Browse through our gallery below and explore what we have to offer.</p>
+        <h1>Welcome to ForS Works</h1>
+        <p>3D models painted with love.</p>
         <a href="prices.html" class="cta-button">View Prices</a>
     </section>
 
