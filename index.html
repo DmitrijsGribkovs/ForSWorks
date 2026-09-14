@@ -72,10 +72,10 @@
 
         .thumbnail-strip {
             display: flex;
-            justify-content: center;
             gap: 15px;
             overflow-x: auto;
             padding: 5px;
+            width: 100%;
         }
 
         /* Custom scrollbar for the strip if images overflow */
@@ -196,12 +196,13 @@
         }
 
         /* Mobile: hide paragraph and button, keep only the heading */
-        @media (max-width: 768px) {
-            .content-section p,
+        @media (max-width: 2168px) {
+            .content-section p, 
             .cta-button {
                 display: none !important;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -234,7 +235,23 @@
             { video: "c2.mp4", thumb: "f2.png" },
             { video: "c3.mp4", thumb: "f3.png" },
             { video: "c4.mp4", thumb: "f4.png" },
-            { video: "c5.mp4", thumb: "f5.png" }
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c5.mp4", thumb: "f5.png" },
+            { video: "c1.mp4", thumb: "f1.png" }
         ];
 
         const bgSlider = document.getElementById('bgSlider');
