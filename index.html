@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ForSWorks - Home</title>
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-```
 <style>
     * {
         box-sizing: border-box;
@@ -31,7 +31,7 @@
 
         font-family: Arial, sans-serif;
         background-color: #111;
-        background-image: url('bg2.png');
+        background-image: url('bg2.webp');
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -60,18 +60,18 @@
     .bg-slide {
         position: absolute;
 
-        top: 50%;
+        top: -60px;
         left: 50%;
 
         width: 100%;
         height: 100%;
 
-        transform: translate(-50%, -50%) scale(1.5);
-        transform-origin: center center;
+        transform: translateX(-50%) scale(1.5);
+        transform-origin: center top;
 
         /* Show the full video with a small proportional zoom. */
         object-fit: contain;
-        object-position: center center;
+        object-position: center top;
         background-size: cover;
         background-position: center;
 
@@ -190,6 +190,10 @@
     .social-link:hover {
         background: rgba(255, 255, 255, 0.18);
         transform: translateY(-2px);
+    }
+
+    .social-link-youtube {
+        right: 136px;
     }
 
     /* =========================================
@@ -320,6 +324,10 @@
         transform: scale(1.05);
     }
 
+    .thumb[src*="item4/"] {
+        object-position: center top;
+    }
+
     /* =========================================
        PHOTO GALLERY
        ========================================= */
@@ -416,6 +424,10 @@
             right: 16px;
         }
 
+        .social-link-youtube {
+            right: 124px;
+        }
+
         .content-section {
             padding-top: 90px;
         }
@@ -444,13 +456,11 @@
         }
     }
 </style>
-```
 
 </head>
 
 <body>
 
-```
 <!-- =========================================
      BACKGROUND VIDEOS
      ========================================= -->
@@ -472,6 +482,9 @@
 
 <a class="social-link" href="https://www.instagram.com/ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Follow ForSWorks on Instagram">
     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2zm0 1.8a3.4 3.4 0 0 0-3.4 3.4v9.6a3.4 3.4 0 0 0 3.4 3.4h9.6a3.4 3.4 0 0 0 3.4-3.4V7.2a3.4 3.4 0 0 0-3.4-3.4H7.2zm4.8 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.35-2.15a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+</a>
+<a class="social-link social-link-youtube" href="https://www.youtube.com/@ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Watch ForSWorks on YouTube">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
 </a>
 
 
@@ -526,7 +539,7 @@
 
         {
             video: "assets/bgslider/item1/c1.mp4",
-            thumb: "assets/bgslider/item1/f1.png",
+            thumb: "assets/bgslider/item1/f1.webp",
             title: "Jinx — Bulkamancer model",
 
             photos: [
@@ -539,7 +552,7 @@
 
         {
             video: "assets/bgslider/item2/c2.mp4",
-            thumb: "assets/bgslider/item2/f2.png",
+            thumb: "assets/bgslider/item2/f2.webp",
             title: "Kassandra — Assassin's Creed 3D model",
 
             photos: [
@@ -552,7 +565,7 @@
 
         {
             video: "assets/bgslider/item3/c3.mp4",
-            thumb: "assets/bgslider/item3/f3.png",
+            thumb: "assets/bgslider/item3/f3.webp",
             title: "Henry of Skalitz — Kingdom Come: Deliverance II",
 
             photos: [
@@ -560,6 +573,18 @@
                 "assets/bgslider/item3/gallery/photo2.jpg",
                 "assets/bgslider/item3/gallery/photo3.jpg",
                 "assets/bgslider/item3/gallery/photo4.jpg"
+            ]
+        },
+
+        {
+            video: "assets/bgslider/item4/c4.mp4",
+            thumb: "assets/bgslider/item4/f4.webp",
+            title: "Helldiver — Helldivers 2 model by HellCreator",
+
+            photos: [
+                "assets/bgslider/item4/gallery/photo1.webp",
+                "assets/bgslider/item4/gallery/photo2.webp",
+                "assets/bgslider/item4/gallery/photo3.webp"
             ]
         },
 
@@ -851,10 +876,18 @@
      * =========================================
      */
 
-    showGallery(0);
+    const requestedItem = Number.parseInt(
+        new URLSearchParams(window.location.search).get("item"),
+        10
+    );
+
+    if (Number.isInteger(requestedItem) && requestedItem >= 0 && requestedItem < slides.length) {
+        changeVideo(requestedItem);
+    } else {
+        showGallery(0);
+    }
 
 </script>
-```
 
 </body>
 </html>
