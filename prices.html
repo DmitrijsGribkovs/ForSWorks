@@ -15,28 +15,28 @@
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-y: auto;
             font-family: Arial, sans-serif;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
             background-color: #111;
         }
 
-        .bg {
-            position: absolute;
-            inset: 0;
-            background: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1920&q=80') center / cover no-repeat;
-            z-index: 1;
-        }
-
         .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-            z-index: 2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 1;
             pointer-events: none;
         }
 
+        /* Top Navigation Menu */
         .nav-menu {
-            position: absolute;
+            position: fixed;
             top: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -65,87 +65,99 @@
             transform: scale(1.05);
         }
 
+        /* Page Content */
         .page-content {
-            position: absolute;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             z-index: 4;
             width: 90%;
-            max-width: 920px;
+            max-width: 960px;
+            margin: 120px auto 60px;
             text-align: center;
             color: white;
-            padding: 10px 20px 30px;
         }
 
         .page-content h1 {
             font-size: 48px;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
 
         .page-content > p {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 40px;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
         }
 
-        .price-grid {
+        /* Pricing Cards */
+        .pricing-grid {
             display: flex;
+            gap: 24px;
             justify-content: center;
-            gap: 20px;
             flex-wrap: wrap;
         }
 
-        .price-card {
-            width: 260px;
-            background: rgba(255, 255, 255, 0.12);
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            padding: 28px 22px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            padding: 30px 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            text-align: left;
+            flex: 1;
+            min-width: 240px;
+            max-width: 300px;
         }
 
-        .price-card.featured {
+        .pricing-card.featured {
             border-color: #fff;
             box-shadow: 0 0 20px rgba(255,255,255,0.25);
             transform: scale(1.04);
         }
 
-        .price-card h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
+        .pricing-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-align: center;
+            color: white;
         }
 
-        .price-card .amount {
-            font-size: 36px;
+        .pricing-card .price {
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
         }
 
-        .price-card .amount span {
-            font-size: 16px;
-            font-weight: normal;
-            opacity: 0.8;
-        }
-
-        .price-card ul {
+        .pricing-card ul {
             list-style: none;
-            text-align: left;
-            margin-bottom: 22px;
+            padding: 0;
+            margin-bottom: 24px;
         }
 
-        .price-card li {
+        .pricing-card li {
+            color: rgba(255, 255, 255, 0.85);
             font-size: 15px;
             line-height: 1.8;
-            padding-left: 4px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .pricing-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .cta-button {
             display: inline-block;
+            width: 100%;
+            text-align: center;
             padding: 12px 30px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
@@ -161,12 +173,25 @@
             background: rgba(255, 255, 255, 0.4);
             transform: scale(1.05);
         }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .pricing-card {
+                max-width: 100%;
+                min-width: auto;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="bg"></div>
     <div class="overlay"></div>
 
+    <!-- Top Navigation Menu -->
     <nav class="nav-menu">
         <a href="index.html">Home</a>
         <a href="prices.html" class="active">Prices</a>
@@ -175,38 +200,44 @@
 
     <section class="page-content">
         <h1>Prices</h1>
-        <p>Choose a plan that fits your next experience. Every package includes gallery access and personal support.</p>
-        <div class="price-grid">
-            <article class="price-card">
-                <h2>Starter</h2>
-                <p class="amount">$49 <span>/ session</span></p>
+        <p>Choose a 3D model service for your next project. Every package is painted with care and delivered with personal support.</p>
+
+        <div class="pricing-grid">
+            <!-- Model touch-up -->
+            <div class="pricing-card">
+                <h2>Model Touch-up</h2>
+                <div class="price">$49 / session</div>
                 <ul>
-                    <li>Half-day guided visit</li>
-                    <li>Photo highlights</li>
-                    <li>Email support</li>
+                    <li>One existing 3D model</li>
+                    <li>Paint and detail refresh</li>
+                    <li>Digital preview included</li>
                 </ul>
-                <a href="about.html" class="cta-button">Get Started</a>
-            </article>
-            <article class="price-card featured">
-                <h2>Premium</h2>
-                <p class="amount">$99 <span>/ session</span></p>
+                <a href="about.html" class="cta-button">Request Touch-up</a>
+            </div>
+
+            <!-- Painted model -->
+            <div class="pricing-card featured">
+                <h2>Painted Model</h2>
+                <div class="price">$99 / session</div>
                 <ul>
-                    <li>Full-day experience</li>
-                    <li>Edited photo set</li>
-                    <li>Priority support</li>
+                    <li>One complete 3D model</li>
+                    <li>Custom colours and finish</li>
+                    <li>Progress previews</li>
                 </ul>
-                <a href="about.html" class="cta-button">Choose Premium</a>
-            </article>
-            <article class="price-card">
-                <h2>Private</h2>
-                <p class="amount">$179 <span>/ session</span></p>
+                <a href="about.html" class="cta-button">Request Model</a>
+            </div>
+
+            <!-- Custom commission -->
+            <div class="pricing-card">
+                <h2>Custom Commission</h2>
+                <div class="price">$179 / session</div>
                 <ul>
-                    <li>Private custom itinerary</li>
-                    <li>Full gallery + video</li>
-                    <li>Dedicated host</li>
+                    <li>Custom 3D model commission</li>
+                    <li>Detailed painted finish</li>
+                    <li>Dedicated project support</li>
                 </ul>
-                <a href="about.html" class="cta-button">Book Private</a>
-            </article>
+                <a href="about.html" class="cta-button">Start Commission</a>
+            </div>
         </div>
     </section>
 </body>
