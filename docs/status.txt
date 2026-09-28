@@ -1,1 +1,0 @@
-Issue closed after removing stray .paperclip‑repositories directory and confirming analysis report is present.
