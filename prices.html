@@ -15,28 +15,28 @@
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-y: auto;
             font-family: Arial, sans-serif;
+            background-image: url('bg2.png');
+            background-size: cover;
+            background-position: center;
             background-color: #111;
         }
 
-        .bg {
-            position: absolute;
-            inset: 0;
-            background: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1920&q=80') center / cover no-repeat;
-            z-index: 1;
-        }
-
         .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-            z-index: 2;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 18% 18%, rgba(92, 138, 255, 0.25), transparent 32%), linear-gradient(135deg, rgba(3, 5, 14, 0.72), rgba(3, 5, 14, 0.38) 48%, rgba(3, 5, 14, 0.82));
+            z-index: 1;
             pointer-events: none;
         }
 
+        /* Top Navigation Menu */
         .nav-menu {
-            position: absolute;
+            position: fixed;
             top: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -65,87 +65,101 @@
             transform: scale(1.05);
         }
 
+        /* Page Content */
         .page-content {
-            position: absolute;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: relative;
             z-index: 4;
             width: 90%;
-            max-width: 920px;
+            max-width: 960px;
+            margin: 120px auto 60px;
             text-align: center;
             color: white;
-            padding: 10px 20px 30px;
         }
 
         .page-content h1 {
-            font-size: 48px;
-            margin-bottom: 12px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 0.98;
+            letter-spacing: -0.04em;
+            margin-bottom: 16px;
+            text-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
         }
 
         .page-content > p {
             font-size: 18px;
             line-height: 1.6;
-            margin-bottom: 28px;
+            margin-bottom: 40px;
             text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
         }
 
-        .price-grid {
+        /* Pricing Cards */
+        .pricing-grid {
             display: flex;
+            gap: 24px;
             justify-content: center;
-            gap: 20px;
             flex-wrap: wrap;
         }
 
-        .price-card {
-            width: 260px;
-            background: rgba(255, 255, 255, 0.12);
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 15px;
-            padding: 28px 22px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            padding: 30px 24px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            text-align: left;
+            flex: 1;
+            min-width: 240px;
+            max-width: 300px;
         }
 
-        .price-card.featured {
+        .pricing-card.featured {
             border-color: #fff;
             box-shadow: 0 0 20px rgba(255,255,255,0.25);
             transform: scale(1.04);
         }
 
-        .price-card h2 {
-            font-size: 22px;
-            margin-bottom: 10px;
+        .pricing-card h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            text-align: center;
+            color: white;
         }
 
-        .price-card .amount {
-            font-size: 36px;
+        .pricing-card .price {
+            font-size: 32px;
             font-weight: bold;
-            margin-bottom: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
         }
 
-        .price-card .amount span {
-            font-size: 16px;
-            font-weight: normal;
-            opacity: 0.8;
-        }
-
-        .price-card ul {
+        .pricing-card ul {
             list-style: none;
-            text-align: left;
-            margin-bottom: 22px;
+            padding: 0;
+            margin-bottom: 24px;
         }
 
-        .price-card li {
+        .pricing-card li {
+            color: rgba(255, 255, 255, 0.85);
             font-size: 15px;
             line-height: 1.8;
-            padding-left: 4px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .pricing-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .cta-button {
             display: inline-block;
+            width: 100%;
+            text-align: center;
             padding: 12px 30px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
@@ -161,12 +175,52 @@
             background: rgba(255, 255, 255, 0.4);
             transform: scale(1.05);
         }
+
+        .product-thumbnail {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            margin-top: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+        }
+
+        .custom-thumbnail {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            line-height: 1;
+            background: #000;
+        }
+
+        .custom-thumbnail svg {
+            width: 30%;
+            max-width: 92px;
+            min-width: 58px;
+            height: auto;
+            fill: white;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .pricing-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .pricing-card {
+                max-width: 100%;
+                min-width: auto;
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="bg"></div>
     <div class="overlay"></div>
 
+    <!-- Top Navigation Menu -->
     <nav class="nav-menu">
         <a href="index.html">Home</a>
         <a href="prices.html" class="active">Prices</a>
@@ -175,38 +229,65 @@
 
     <section class="page-content">
         <h1>Prices</h1>
-        <p>Choose a plan that fits your next experience. Every package includes gallery access and personal support.</p>
-        <div class="price-grid">
-            <article class="price-card">
-                <h2>Starter</h2>
-                <p class="amount">$49 <span>/ session</span></p>
+        <p>Choose a 3D model service for your next project. Every package is painted with care and delivered with personal support.</p>
+
+        <div class="pricing-grid">
+            <!-- Jinx -->
+            <div class="pricing-card">
+                <h2>Jinx</h2>
+                <div class="price">$49 / session</div>
                 <ul>
-                    <li>Half-day guided visit</li>
-                    <li>Photo highlights</li>
-                    <li>Email support</li>
+                    <li>Bulkamancer 3D model</li>
+                    <li>Detailed painted finish</li>
+                    <li>Gallery and video preview</li>
                 </ul>
-                <a href="about.html" class="cta-button">Get Started</a>
-            </article>
-            <article class="price-card featured">
-                <h2>Premium</h2>
-                <p class="amount">$99 <span>/ session</span></p>
+                <a href="about.html" class="cta-button">View Jinx</a>
+                <img class="product-thumbnail" src="assets/bgslider/item1/f1.png" alt="Jinx Bulkamancer model thumbnail">
+            </div>
+
+            <!-- Kassandra -->
+            <div class="pricing-card featured">
+                <h2>Kassandra</h2>
+                <div class="price">$99 / session</div>
                 <ul>
-                    <li>Full-day experience</li>
-                    <li>Edited photo set</li>
-                    <li>Priority support</li>
+                    <li>Assassin's Creed 3D model</li>
+                    <li>Detailed painted finish</li>
+                    <li>Gallery and video preview</li>
                 </ul>
-                <a href="about.html" class="cta-button">Choose Premium</a>
-            </article>
-            <article class="price-card">
-                <h2>Private</h2>
-                <p class="amount">$179 <span>/ session</span></p>
+                <a href="about.html" class="cta-button">View Kassandra</a>
+                <img class="product-thumbnail" src="assets/bgslider/item2/f2.png" alt="Kassandra Assassin's Creed model thumbnail">
+            </div>
+
+            <!-- Henry of Skalitz -->
+            <div class="pricing-card">
+                <h2>Henry of Skalitz</h2>
+                <div class="price">$179 / session</div>
                 <ul>
-                    <li>Private custom itinerary</li>
-                    <li>Full gallery + video</li>
-                    <li>Dedicated host</li>
+                    <li>Kingdom Come: Deliverance II model</li>
+                    <li>Bulkamancer 3D model</li>
+                    <li>Gallery and video preview</li>
                 </ul>
-                <a href="about.html" class="cta-button">Book Private</a>
-            </article>
+                <a href="about.html" class="cta-button">View Henry</a>
+                <img class="product-thumbnail" src="assets/bgslider/item3/f3.png" alt="Henry of Skalitz Kingdom Come Deliverance II model thumbnail">
+            </div>
+
+            <!-- Custom model -->
+            <div class="pricing-card">
+                <h2>Custom 3D Model</h2>
+                <div class="price">$249 / commission</div>
+                <ul>
+                    <li>A model of your choice</li>
+                    <li>Painted by ForSWorks</li>
+                    <li>Personalized finish and preview</li>
+                </ul>
+                <a href="about.html" class="cta-button">Start Custom Model</a>
+                <div class="product-thumbnail custom-thumbnail" role="img" aria-label="Custom 3D model silhouette preview">
+                    <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="50" cy="28" r="18" />
+                        <path d="M14 112c2-28 16-46 36-46s34 18 36 46H14z" />
+                    </svg>
+                </div>
+            </div>
         </div>
     </section>
 </body>
