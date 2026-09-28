@@ -1,325 +1,860 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ForSWorks - Home</title>
-	<link rel="icon" type="image/png" href="favicon.png">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+    <link rel="icon" type="image/png" href="favicon.png">
+
+```
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    html {
+        width: 100%;
+        min-height: 100%;
+    }
+
+    body {
+        width: 100%;
+        min-height: 100vh;
+
+        /* IMPORTANT:
+           The page itself can scroll */
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        font-family: Arial, sans-serif;
+        background-color: #111;
+        background-image: url('bg2.png');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* =========================================
+       FIXED BACKGROUND VIDEO
+       ========================================= */
+
+    .bg-slider {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+
+        z-index: 0;
+
+        overflow: hidden;
+
+        pointer-events: none;
+    }
+
+    .bg-slide {
+        position: absolute;
+
+        top: 50%;
+        left: 50%;
+
+        width: 100%;
+        height: 100%;
+
+        transform: translate(-50%, -50%) scale(1.5);
+        transform-origin: center center;
+
+        /* Show the full video with a small proportional zoom. */
+        object-fit: contain;
+        object-position: center center;
+        background-size: cover;
+        background-position: center;
+
+        opacity: 0;
+
+        transition:
+            opacity 0.8s ease-in-out;
+    }
+
+    .bg-slide.active {
+        opacity: 1;
+    }
+
+    /* =========================================
+       DARK OVERLAY
+       ========================================= */
+
+    .overlay {
+        position: fixed;
+
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100vh;
+
+        background: radial-gradient(circle at 18% 18%, rgba(92, 138, 255, 0.25), transparent 32%), linear-gradient(135deg, rgba(3, 5, 14, 0.72), rgba(3, 5, 14, 0.38) 48%, rgba(3, 5, 14, 0.82));
+
+        z-index: 1;
+
+        pointer-events: none;
+    }
+
+    /* =========================================
+       TOP NAVIGATION
+       ========================================= */
+
+    .nav-menu {
+        position: fixed;
+
+        top: 30px;
+        left: 50%;
+
+        transform: translateX(-50%);
+
+        z-index: 10;
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 20px;
+
+        min-height: 58px;
+
+        background: rgba(0, 0, 0, 0.6);
+
+        padding: 10px 25px;
+
+        border-radius: 30px;
+
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .nav-menu a {
+        color: white;
+
+        text-decoration: none;
+
+        font-size: 16px;
+        font-weight: bold;
+
+        line-height: 20px;
+
+        padding: 8px 15px;
+
+        transition:
+            background 0.3s ease,
+            transform 0.2s ease;
+    }
+
+    .nav-menu a:hover,
+    .nav-menu a.active {
+        background: rgba(255, 255, 255, 0.2);
+
+        border-radius: 20px;
+
+        transform: scale(1.05);
+    }
+
+    .social-link {
+        position: fixed;
+        top: 30px;
+        right: 28px;
+        z-index: 10;
+        display: grid;
+        place-items: center;
+        width: 92px;
+        height: 92px;
+        color: white;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(8px);
+        transition: background 0.25s ease, transform 0.25s ease;
+    }
+
+    .social-link svg {
+        width: 44px;
+        height: 44px;
+        fill: currentColor;
+    }
+
+    .social-link:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-2px);
+    }
+
+    /* =========================================
+       TITLE
+       ========================================= */
+
+    .content-section {
+        position: relative;
+
+        z-index: 4;
+
+        width: 100%;
+
+        text-align: center;
+
+        color: white;
+
+        padding-top: 110px;
+    }
+
+    .content-section h1 {
+        font-size: clamp(42px, 7vw, 78px);
+        line-height: 0.98;
+        letter-spacing: -0.04em;
+
+        margin-bottom: 20px;
+
+        text-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .content-section p {
+        width: min(620px, 88%);
+        margin: 0 auto;
+        color: #b8c9ff;
+        font-size: 18px;
+        line-height: 1.55;
+        text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    }
+
+    .cta-button {
+        display: none;
+    }
+
+    /* =========================================
+       THUMBNAIL SELECTOR
+       ========================================= */
+
+    .nav-container {
+        position: relative;
+
+        z-index: 5;
+
+        width: 90%;
+        max-width: 800px;
+
+        margin: 35px auto 0;
+
+        background: rgba(255, 255, 255, 0.1);
+
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        padding: 20px;
+
+        border-radius: 15px;
+
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .thumbnail-strip {
+        display: flex;
+
+        gap: 15px;
+
+        overflow-x: auto;
+
+        padding: 5px;
+
+        width: 100%;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .thumbnail-strip::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+
+        border-radius: 4px;
+    }
+
+    .thumb {
+        width: 120px;
+        height: 80px;
+
+        object-fit: cover;
+
+        border-radius: 8px;
+
+        cursor: pointer;
+
+        opacity: 0.6;
+
+        transition: all 0.3s ease;
+
+        border: 2px solid transparent;
+
+        flex-shrink: 0;
+    }
+
+    .thumb:hover {
+        opacity: 0.9;
+
+        transform: scale(1.05);
+    }
+
+    .thumb.active {
+        opacity: 1;
+
+        border-color: #fff;
+
+        box-shadow:
+            0 0 15px rgba(255, 255, 255, 0.5);
+
+        transform: scale(1.05);
+    }
+
+    /* =========================================
+       PHOTO GALLERY
+       ========================================= */
+
+    .photo-gallery {
+        position: relative;
+
+        z-index: 5;
+
+        width: 90%;
+        max-width: 900px;
+
+        margin: 40px auto 100px;
+
+        padding: 30px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        gap: 48px;
+
+        background: rgba(0, 0, 0, 0.35);
+
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+
+        border-radius: 18px;
+
+        border: 1px solid rgba(255, 255, 255, 0.15);
+
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    .gallery-title {
+        width: 100%;
+
+        color: white;
+
+        text-align: center;
+
+        font-size: 26px;
+
+        margin-bottom: 5px;
+
+        text-shadow:
+            2px 2px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    .gallery-photo {
+        display: block;
+
+        width: 100%;
+        max-width: 800px;
+
+        height: auto;
+
+        /*
+         * IMPORTANT:
+         * Do not force a height.
+         * This keeps each photo's original
+         * aspect ratio.
+         */
+        object-fit: contain;
+
+        border-radius: 12px;
+
+        box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.6);
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .gallery-photo:hover {
+        transform: scale(1.015);
+
+        box-shadow:
+            0 20px 45px rgba(0, 0, 0, 0.75);
+    }
+
+    /* =========================================
+       MOBILE
+       ========================================= */
+
+    @media (max-width: 700px) {
+
+        .social-link {
+            top: 70px;
+            right: 16px;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            background-image: url('bg.png');
-            background-size: cover;
-            background-position: center;
-            background-color: #111;
+        .content-section {
+            padding-top: 90px;
         }
 
-        .bg-slide {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            height: 100%;
-            object-fit: cover;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
-        }
-
-        .bg-slide.active {
-            opacity: 1;
-        }
-
-        /* Dark overlay to make the center strip pop */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        /* Central thumbnail strip container */
         .nav-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 3;
-            width: 90%;
-            max-width: 800px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
+            width: 95%;
 
-        .thumbnail-strip {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding: 5px;
-            width: 100%;
-        }
-
-        /* Custom scrollbar for the strip if images overflow */
-        .thumbnail-strip::-webkit-scrollbar {
-            height: 6px;
-        }
-        .thumbnail-strip::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            padding: 12px;
         }
 
         .thumb {
-            width: 120px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            opacity: 0.6;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            flex-shrink: 0;
+            width: 100px;
+            height: 70px;
         }
 
-        .thumb:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
+        .photo-gallery {
+            width: 95%;
 
-        .thumb.active {
-            opacity: 1;
-            border-color: #fff;
-            box-shadow: 0 0 15px rgba(255,255,255,0.5);
-            transform: scale(1.05);
-        }
+            padding: 15px;
 
-        /* Top Navigation Menu */
-        .nav-menu {
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            display: flex;
             gap: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px 25px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
         }
 
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 8px 15px;
-            transition: background 0.3s ease, transform 0.2s ease;
+        .gallery-title {
+            font-size: 22px;
         }
+    }
+</style>
+```
 
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            transform: scale(1.05);
-        }
-
-        /* Content Sections */
-        .content-section {
-            position: absolute;
-            top: 90px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            text-align: center;
-            color: white;
-            max-width: 600px;
-            padding: 20px 30px;
-        }
-
-        .content-section h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-        }
-
-        .content-section p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .cta-button:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.05);
-        }
-
-        /* Hide content sections by default */
-        .content-section {
-            display: none;
-        }
-
-        .home-content {
-            display: block;
-        }
-
-        /* Mobile: hide paragraph and button, keep only the heading */
-        @media (max-width: 2168px) {
-            .content-section p, 
-            .cta-button {
-                display: none !important;
-            }
-        }
-        
-    </style>
 </head>
+
 <body>
 
-    <div class="bg-slider" id="bgSlider"></div>
-    <div class="overlay"></div>
+```
+<!-- =========================================
+     BACKGROUND VIDEOS
+     ========================================= -->
 
-    <!-- Top Navigation Menu -->
-    <nav class="nav-menu">
-        <a href="index.html" class="active">Home</a>
-        <a href="prices.html">Prices</a>
-        <a href="about.html">About</a>
-    </nav>
+<div class="bg-slider" id="bgSlider"></div>
 
-    <!-- Home Content Section -->
-    <section class="content-section home-content">
-        <h1>Welcome to ForS Works</h1>
-        <p>3D models painted with love.</p>
-        <a href="prices.html" class="cta-button">View Prices</a>
-    </section>
+<div class="overlay"></div>
 
-    <div class="nav-container">
-        <div class="thumbnail-strip" id="thumbStrip"></div>
+
+<!-- =========================================
+     TOP NAVIGATION
+     ========================================= -->
+
+<nav class="nav-menu">
+    <a href="index.html" class="active">Home</a>
+    <a href="prices.html">Prices</a>
+    <a href="about.html">About</a>
+</nav>
+
+<a class="social-link" href="https://www.instagram.com/ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Follow ForSWorks on Instagram">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2zm0 1.8a3.4 3.4 0 0 0-3.4 3.4v9.6a3.4 3.4 0 0 0 3.4 3.4h9.6a3.4 3.4 0 0 0 3.4-3.4V7.2a3.4 3.4 0 0 0-3.4-3.4H7.2zm4.8 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.35-2.15a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+</a>
+
+
+<!-- =========================================
+     TITLE
+     ========================================= -->
+
+<section class="content-section">
+    <h1>Welcome to ForS Works</h1>
+    <p>Explore character models painted with care, presented from every angle.</p>
+</section>
+
+
+<!-- =========================================
+     THUMBNAIL SELECTOR
+     ========================================= -->
+
+<div class="nav-container">
+    <div
+        class="thumbnail-strip"
+        id="thumbStrip">
     </div>
+</div>
 
-    <script>
-        // Paired video + thumbnail image arrays
-        const slides = [
-            { video: "c1.mp4", thumb: "f1.png" },
-            { video: "c2.mp4", thumb: "f2.png" },
-            { video: "c3.mp4", thumb: "f3.png" },
-            { video: "c4.mp4", thumb: "f4.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c5.mp4", thumb: "f5.png" },
-            { video: "c1.mp4", thumb: "f1.png" }
-        ];
 
-        const bgSlider = document.getElementById('bgSlider');
-        const thumbStrip = document.getElementById('thumbStrip');
+<!-- =========================================
+     VERTICAL PHOTO GALLERY
+     ========================================= -->
 
-        // Dynamically build the background video slides and thumbnail strip
-        slides.forEach((item, index) => {
-            // Create background video slide
-            const slide = document.createElement('video');
-            slide.classList.add('bg-slide');
-            slide.src = item.video;
-            slide.muted = true;
-            slide.loop = true;
-            slide.playsInline = true;
-            slide.autoplay = true;
-            // Only preload/play the first video eagerly; others load on demand
-            slide.preload = index === 0 ? 'auto' : 'none';
-            if (index === 0) {
-                slide.classList.add('active');
-            }
-            bgSlider.appendChild(slide);
+<div
+    class="photo-gallery"
+    id="photoGallery">
+</div>
 
-            // Create thumbnail as an image element
-            const thumb = document.createElement('img');
-            thumb.src = item.thumb;
-            thumb.alt = '';
-            thumb.classList.add('thumb');
-            if (index === 0) {
-                thumb.classList.add('active');
-            }
 
-            // Add click event to switch videos
-            thumb.addEventListener('click', () => changeVideo(index));
-            thumbStrip.appendChild(thumb);
-        });
+<script>
 
-        // Start the first background video playing
-        const firstSlide = bgSlider.querySelector('.bg-slide');
-        if (firstSlide) {
-            firstSlide.play().catch(() => {});
+    /*
+     * =========================================
+     * PROJECT DATA
+     * =========================================
+     *
+     * Each thumbnail selects:
+     *
+     * 1. Background video
+     * 2. Gallery title
+     * 3. Set of photos
+     *
+     */
+
+    const slides = [
+
+        {
+            video: "assets/bgslider/item1/c1.mp4",
+            thumb: "assets/bgslider/item1/f1.png",
+            title: "Jinx — Bulkamancer model",
+
+            photos: [
+                "assets/bgslider/item1/gallery/photo1.jpg",
+                "assets/bgslider/item1/gallery/photo2.jpg",
+                "assets/bgslider/item1/gallery/photo3.jpg",
+                "assets/bgslider/item1/gallery/photo4.jpg"
+            ]
+        },
+
+        {
+            video: "assets/bgslider/item2/c2.mp4",
+            thumb: "assets/bgslider/item2/f2.png",
+            title: "Kassandra — Assassin's Creed 3D model",
+
+            photos: [
+                "assets/bgslider/item2/gallery/photo1.jpg",
+                "assets/bgslider/item2/gallery/photo2.jpg",
+                "assets/bgslider/item2/gallery/photo3.jpg",
+                "assets/bgslider/item2/gallery/photo4.jpg"
+            ]
+        },
+
+        {
+            video: "assets/bgslider/item3/c3.mp4",
+            thumb: "assets/bgslider/item3/f3.png",
+            title: "Henry of Skalitz — Kingdom Come: Deliverance II",
+
+            photos: [
+                "assets/bgslider/item3/gallery/photo1.jpg",
+                "assets/bgslider/item3/gallery/photo2.jpg",
+                "assets/bgslider/item3/gallery/photo3.jpg",
+                "assets/bgslider/item3/gallery/photo4.jpg"
+            ]
+        },
+
+    ];
+
+
+    /*
+     * =========================================
+     * GET HTML ELEMENTS
+     * =========================================
+     */
+
+    const bgSlider =
+        document.getElementById("bgSlider");
+
+    const thumbStrip =
+        document.getElementById("thumbStrip");
+
+    const photoGallery =
+        document.getElementById("photoGallery");
+
+
+    /*
+     * =========================================
+     * CREATE BACKGROUND VIDEOS
+     * =========================================
+     */
+
+    slides.forEach((item, index) => {
+
+        const slide =
+            document.createElement("video");
+
+        slide.classList.add("bg-slide");
+
+        slide.src = item.video;
+
+        slide.muted = true;
+
+        slide.loop = true;
+
+        slide.playsInline = true;
+
+        slide.autoplay = true;
+
+        /*
+         * Only load first video initially.
+         */
+
+        slide.preload =
+            index === 0
+                ? "auto"
+                : "none";
+
+        if (index === 0) {
+            slide.classList.add("active");
         }
 
-        // Function to handle switching background videos
-        function changeVideo(index) {
-            // Update active background
-            const slides = document.querySelectorAll('.bg-slide');
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === index) return;
+        bgSlider.appendChild(slide);
+
+
+        /*
+         * =====================================
+         * CREATE THUMBNAIL
+         * =====================================
+         */
+
+        const thumb =
+            document.createElement("img");
+
+        thumb.src = item.thumb;
+
+        thumb.alt = item.title;
+
+        thumb.classList.add("thumb");
+
+        if (index === 0) {
+            thumb.classList.add("active");
+        }
+
+        thumb.addEventListener(
+            "click",
+            () => changeVideo(index)
+        );
+
+        thumbStrip.appendChild(thumb);
+
+    });
+
+
+    /*
+     * =========================================
+     * PLAY FIRST VIDEO
+     * =========================================
+     */
+
+    const firstSlide =
+        bgSlider.querySelector(".bg-slide");
+
+    if (firstSlide) {
+
+        firstSlide
+            .play()
+            .catch(() => {});
+
+    }
+
+
+    /*
+     * =========================================
+     * SHOW GALLERY
+     * =========================================
+     */
+
+    function showGallery(index) {
+
+        const item = slides[index];
+
+        /*
+         * Remove old gallery
+         */
+
+        photoGallery.innerHTML = "";
+
+
+        /*
+         * Gallery title
+         */
+
+        const title =
+            document.createElement("div");
+
+        title.classList.add(
+            "gallery-title"
+        );
+
+        title.textContent =
+            item.title;
+
+        photoGallery.appendChild(title);
+
+
+        /*
+         * Add photos vertically
+         */
+
+        item.photos.forEach(
+            (photoUrl, photoIndex) => {
+
+                const img =
+                    document.createElement("img");
+
+                img.classList.add(
+                    "gallery-photo"
+                );
+
+                img.src = photoUrl;
+
+                img.alt =
+                    `${item.title} photo ${photoIndex + 1}`;
+
+                /*
+                 * Lazy loading:
+                 * photos further down the page
+                 * don't load until needed.
+                 */
+
+                img.loading =
+                    photoIndex === 0
+                        ? "eager"
+                        : "lazy";
+
+                photoGallery.appendChild(img);
+
+            }
+        );
+    }
+
+
+    /*
+     * =========================================
+     * CHANGE PROJECT
+     * =========================================
+     */
+
+    function changeVideo(index) {
+
+        /*
+         * Get all videos
+         */
+
+        const videoSlides =
+            document.querySelectorAll(
+                ".bg-slide"
+            );
+
+
+        /*
+         * Stop inactive videos
+         */
+
+        videoSlides.forEach(
+            (slide, i) => {
+
+                slide.classList.remove(
+                    "active"
+                );
+
+                if (i === index) {
+                    return;
+                }
+
                 slide.pause();
-                if (slide.preload === 'auto') {
+
+                /*
+                 * Reset video
+                 */
+
+                if (
+                    slide.preload === "auto"
+                ) {
                     slide.currentTime = 0;
                 }
-            });
 
-            const activeSlide = slides[index];
-            activeSlide.classList.add('active');
-            activeSlide.preload = 'auto';
-            activeSlide.play().catch(() => {});
+            }
+        );
 
-            // Update active thumbnail
-            const thumbs = document.querySelectorAll('.thumb');
-            thumbs.forEach((thumb, i) => {
-                thumb.classList.remove('active');
-            });
-            const activeThumb = thumbs[index];
-            activeThumb.classList.add('active');
-        }
-    </script>
+
+        /*
+         * Activate selected video
+         */
+
+        const activeSlide =
+            videoSlides[index];
+
+        activeSlide.classList.add(
+            "active"
+        );
+
+        activeSlide.preload =
+            "auto";
+
+        activeSlide
+            .play()
+            .catch(() => {});
+
+
+        /*
+         * =====================================
+         * UPDATE THUMBNAIL
+         * =====================================
+         */
+
+        const thumbs =
+            document.querySelectorAll(
+                ".thumb"
+            );
+
+        thumbs.forEach(
+            thumb => {
+
+                thumb.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+        thumbs[index].classList.add(
+            "active"
+        );
+
+
+        /*
+         * =====================================
+         * UPDATE PHOTO GALLERY
+         * =====================================
+         */
+
+        showGallery(index);
+
+
+    }
+
+
+    /*
+     * =========================================
+     * INITIAL GALLERY
+     * =========================================
+     */
+
+    showGallery(0);
+
+</script>
+```
+
 </body>
 </html>
