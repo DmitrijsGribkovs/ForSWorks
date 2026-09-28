@@ -4,291 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ForSWorks - Prices</title>
-	<link rel="icon" type="image/png" href="favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            font-family: Arial, sans-serif;
-            background-image: url('bg2.png');
-            background-size: cover;
-            background-position: center;
-            background-color: #111;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 18% 18%, rgba(92, 138, 255, 0.25), transparent 32%), linear-gradient(135deg, rgba(3, 5, 14, 0.72), rgba(3, 5, 14, 0.38) 48%, rgba(3, 5, 14, 0.82));
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* Top Navigation Menu */
-        .nav-menu {
-            position: fixed;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            display: flex;
-            gap: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px 25px;
-            border-radius: 30px;
-            backdrop-filter: blur(8px);
-        }
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 8px 15px;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-
-        .nav-menu a:hover,
-        .nav-menu a.active {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            transform: scale(1.05);
-        }
-
-        /* Page Content */
-        .page-content {
-            position: relative;
-            z-index: 4;
-            width: 90%;
-            max-width: 960px;
-            margin: 120px auto 60px;
-            text-align: center;
-            color: white;
-        }
-
-        .page-content h1 {
-            font-size: clamp(42px, 7vw, 78px);
-            line-height: 0.98;
-            letter-spacing: -0.04em;
-            margin-bottom: 16px;
-            text-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .page-content > p {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
-        }
-
-        /* Pricing Cards */
-        .pricing-grid {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 30px 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-            text-align: left;
-            flex: 1;
-            min-width: 240px;
-            max-width: 300px;
-        }
-
-        .pricing-card.featured {
-            border-color: #fff;
-            box-shadow: 0 0 20px rgba(255,255,255,0.25);
-            transform: scale(1.04);
-        }
-
-        .pricing-card h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
-            text-align: center;
-            color: white;
-        }
-
-        .pricing-card .price {
-            font-size: 32px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            color: white;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-        }
-
-        .pricing-card ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 24px;
-        }
-
-        .pricing-card li {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 15px;
-            line-height: 1.8;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .pricing-card li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .cta-button {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 12px 30px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .cta-button:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.05);
-        }
-
-        .product-thumbnail {
-            display: block;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-            margin-top: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 10px;
-        }
-
-        .custom-thumbnail {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            line-height: 1;
-            background: #000;
-        }
-
-        .custom-thumbnail svg {
-            width: 30%;
-            max-width: 92px;
-            min-width: 58px;
-            height: auto;
-            fill: white;
-        }
-
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .pricing-grid {
-                flex-direction: column;
-                align-items: center;
-            }
-            .pricing-card {
-                max-width: 100%;
-                min-width: auto;
-                width: 100%;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { color-scheme: dark; --glass: rgba(10, 12, 20, 0.66); --line: rgba(255, 255, 255, 0.18); --muted: rgba(255, 255, 255, 0.72); }
+        html { min-height: 100%; }
+        body { min-height: 100vh; overflow-x: hidden; font-family: Arial, sans-serif; color: white; background: #111 url('bg2.png') center / cover fixed no-repeat; }
+        body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 18% 18%, rgba(92, 138, 255, 0.25), transparent 32%), linear-gradient(135deg, rgba(3, 5, 14, 0.72), rgba(3, 5, 14, 0.38) 48%, rgba(3, 5, 14, 0.82)); }
+        .nav-menu { position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; align-items: center; gap: 20px; min-height: 58px; background: rgba(0, 0, 0, 0.6); padding: 10px 25px; border-radius: 30px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+        .nav-menu a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; line-height: 20px; padding: 8px 15px; transition: background 0.3s ease, transform 0.2s ease; }
+        .nav-menu a:hover, .nav-menu a.active { background: rgba(255, 255, 255, 0.2); border-radius: 20px; transform: scale(1.05); }
+        .social-link { position: fixed; top: 30px; right: 28px; z-index: 10; display: grid; place-items: center; width: 92px; height: 92px; color: white; text-decoration: none; border: 1px solid var(--line); border-radius: 50%; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(8px); transition: background 0.25s ease, transform 0.25s ease; }
+        .social-link svg { width: 44px; height: 44px; fill: currentColor; }
+        .social-link:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-2px); }
+        .page-content { position: relative; z-index: 1; width: min(1100px, 92%); margin: 0 auto; padding: 132px 0 70px; }
+        .hero { max-width: 760px; margin-bottom: 44px; }
+        .eyebrow { margin-bottom: 14px; color: #b8c9ff; font-size: 13px; font-weight: bold; letter-spacing: 0.2em; text-transform: uppercase; }
+        h1 { margin-bottom: 18px; font-size: clamp(42px, 7vw, 78px); line-height: 0.98; letter-spacing: -0.04em; text-shadow: 0 12px 30px rgba(0, 0, 0, 0.4); }
+        .hero p { max-width: 650px; color: var(--muted); font-size: 20px; line-height: 1.55; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .pricing-card { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: var(--glass); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28); backdrop-filter: blur(14px); }
+        .pricing-card.featured { border-color: rgba(219, 228, 255, 0.75); box-shadow: 0 0 28px rgba(92, 138, 255, 0.2); }
+        .card-copy { display: flex; flex: 1; flex-direction: column; padding: 22px; }
+        .card-copy h2 { margin-bottom: 10px; font-size: 24px; line-height: 1.1; }
+        .price { margin-bottom: 18px; color: #dbe4ff; font-size: 30px; font-weight: bold; }
+        .pricing-card ul { flex: 1; margin-bottom: 20px; list-style: none; }
+        .pricing-card li { position: relative; padding-left: 20px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+        .pricing-card li::before { content: '✓'; position: absolute; left: 0; color: #b8c9ff; }
+        .cta-button { display: block; width: 100%; padding: 12px 18px; color: #0d1220; font-weight: bold; text-align: center; text-decoration: none; border-radius: 24px; background: #dbe4ff; transition: transform 0.25s ease, background 0.25s ease; }
+        .cta-button:hover { background: white; transform: translateY(-2px); }
+        .product-thumbnail { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-top: 1px solid var(--line); }
+        .custom-thumbnail { display: grid; place-items: center; color: white; background: #000; }
+        .custom-thumbnail svg { width: 30%; max-width: 92px; min-width: 58px; height: auto; fill: white; }
+        @media (max-width: 1050px) { .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        @media (max-width: 760px) { .page-content { padding-top: 108px; } .pricing-grid { grid-template-columns: 1fr; } .social-link { top: 82px; right: 16px; } }
     </style>
 </head>
 <body>
-    <div class="overlay"></div>
-
-    <!-- Top Navigation Menu -->
-    <nav class="nav-menu">
+    <nav class="nav-menu" aria-label="Primary navigation">
         <a href="index.html">Home</a>
         <a href="prices.html" class="active">Prices</a>
         <a href="about.html">About</a>
     </nav>
-
-    <section class="page-content">
-        <h1>Prices</h1>
-        <p>Choose a 3D model service for your next project. Every package is painted with care and delivered with personal support.</p>
-
-        <div class="pricing-grid">
-            <!-- Jinx -->
-            <div class="pricing-card">
-                <h2>Jinx</h2>
-                <div class="price">$49 / session</div>
-                <ul>
-                    <li>Bulkamancer 3D model</li>
-                    <li>Detailed painted finish</li>
-                    <li>Gallery and video preview</li>
-                </ul>
-                <a href="about.html" class="cta-button">View Jinx</a>
+    <a class="social-link" href="https://www.instagram.com/ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Follow ForSWorks on Instagram">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2zm0 1.8a3.4 3.4 0 0 0-3.4 3.4v9.6a3.4 3.4 0 0 0 3.4 3.4h9.6a3.4 3.4 0 0 0 3.4-3.4V7.2a3.4 3.4 0 0 0-3.4-3.4H7.2zm4.8 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.35-2.15a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+    </a>
+    <main class="page-content">
+        <header class="hero">
+            <div class="eyebrow">ForSWorks / independent 3D studio</div>
+            <h1>Choose your next character.</h1>
+            <p>Choose a 3D model service for your next project. Every package is painted with care and delivered with personal support.</p>
+        </header>
+        <section class="pricing-grid" aria-label="ForSWorks model prices">
+            <article class="pricing-card">
+                <div class="card-copy"><h2>Jinx</h2><div class="price">$49 / session</div><ul><li>Bulkamancer 3D model</li><li>Detailed painted finish</li><li>Gallery and video preview</li></ul><a href="about.html" class="cta-button">View Jinx</a></div>
                 <img class="product-thumbnail" src="assets/bgslider/item1/f1.png" alt="Jinx Bulkamancer model thumbnail">
-            </div>
-
-            <!-- Kassandra -->
-            <div class="pricing-card featured">
-                <h2>Kassandra</h2>
-                <div class="price">$99 / session</div>
-                <ul>
-                    <li>Assassin's Creed 3D model</li>
-                    <li>Detailed painted finish</li>
-                    <li>Gallery and video preview</li>
-                </ul>
-                <a href="about.html" class="cta-button">View Kassandra</a>
+            </article>
+            <article class="pricing-card featured">
+                <div class="card-copy"><h2>Kassandra</h2><div class="price">$99 / session</div><ul><li>Assassin's Creed 3D model</li><li>Detailed painted finish</li><li>Gallery and video preview</li></ul><a href="about.html" class="cta-button">View Kassandra</a></div>
                 <img class="product-thumbnail" src="assets/bgslider/item2/f2.png" alt="Kassandra Assassin's Creed model thumbnail">
-            </div>
-
-            <!-- Henry of Skalitz -->
-            <div class="pricing-card">
-                <h2>Henry of Skalitz</h2>
-                <div class="price">$179 / session</div>
-                <ul>
-                    <li>Kingdom Come: Deliverance II model</li>
-                    <li>Bulkamancer 3D model</li>
-                    <li>Gallery and video preview</li>
-                </ul>
-                <a href="about.html" class="cta-button">View Henry</a>
+            </article>
+            <article class="pricing-card">
+                <div class="card-copy"><h2>Henry of Skalitz</h2><div class="price">$179 / session</div><ul><li>Kingdom Come: Deliverance II model</li><li>Bulkamancer 3D model</li><li>Gallery and video preview</li></ul><a href="about.html" class="cta-button">View Henry</a></div>
                 <img class="product-thumbnail" src="assets/bgslider/item3/f3.png" alt="Henry of Skalitz Kingdom Come Deliverance II model thumbnail">
-            </div>
-
-            <!-- Custom model -->
-            <div class="pricing-card">
-                <h2>Custom 3D Model</h2>
-                <div class="price">$249 / commission</div>
-                <ul>
-                    <li>A model of your choice</li>
-                    <li>Painted by ForSWorks</li>
-                    <li>Personalized finish and preview</li>
-                </ul>
-                <a href="about.html" class="cta-button">Start Custom Model</a>
-                <div class="product-thumbnail custom-thumbnail" role="img" aria-label="Custom 3D model silhouette preview">
-                    <svg viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <circle cx="50" cy="28" r="18" />
-                        <path d="M14 112c2-28 16-46 36-46s34 18 36 46H14z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
-    </section>
+            </article>
+            <article class="pricing-card">
+                <div class="card-copy"><h2>Custom 3D Model</h2><div class="price">$249 / commission</div><ul><li>A model of your choice</li><li>Painted by ForSWorks</li><li>Personalized finish and preview</li></ul><a href="about.html" class="cta-button">Start Custom Model</a></div>
+                <img class="product-thumbnail" src="assets/bgslider/custom-silhouette.jpg" alt="Custom 3D model silhouette preview">
+            </article>
+        </section>
+    </main>
 </body>
 </html>
