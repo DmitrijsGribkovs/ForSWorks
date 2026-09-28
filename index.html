@@ -121,11 +121,7 @@
 
         display: flex;
 
-        align-items: center;
-
         gap: 20px;
-
-        min-height: 58px;
 
         background: rgba(0, 0, 0, 0.6);
 
@@ -145,8 +141,6 @@
         font-size: 16px;
         font-weight: bold;
 
-        line-height: 20px;
-
         padding: 8px 15px;
 
         transition:
@@ -161,35 +155,6 @@
         border-radius: 20px;
 
         transform: scale(1.05);
-    }
-
-    .social-link {
-        position: fixed;
-        top: 30px;
-        right: 28px;
-        z-index: 10;
-        display: grid;
-        place-items: center;
-        width: 92px;
-        height: 92px;
-        color: white;
-        text-decoration: none;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.45);
-        backdrop-filter: blur(8px);
-        transition: background 0.25s ease, transform 0.25s ease;
-    }
-
-    .social-link svg {
-        width: 44px;
-        height: 44px;
-        fill: currentColor;
-    }
-
-    .social-link:hover {
-        background: rgba(255, 255, 255, 0.18);
-        transform: translateY(-2px);
     }
 
     /* =========================================
@@ -411,9 +376,18 @@
 
     @media (max-width: 700px) {
 
-        .social-link {
-            top: 70px;
-            right: 16px;
+        .nav-menu {
+            top: 15px;
+
+            gap: 5px;
+
+            padding: 7px 10px;
+        }
+
+        .nav-menu a {
+            font-size: 13px;
+
+            padding: 7px 10px;
         }
 
         .content-section {
@@ -469,10 +443,6 @@
     <a href="prices.html">Prices</a>
     <a href="about.html">About</a>
 </nav>
-
-<a class="social-link" href="https://www.instagram.com/ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Follow ForSWorks on Instagram">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2zm0 1.8a3.4 3.4 0 0 0-3.4 3.4v9.6a3.4 3.4 0 0 0 3.4 3.4h9.6a3.4 3.4 0 0 0 3.4-3.4V7.2a3.4 3.4 0 0 0-3.4-3.4H7.2zm4.8 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.35-2.15a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
-</a>
 
 
 <!-- =========================================

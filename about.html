@@ -11,8 +11,8 @@
         html { min-height: 100%; }
         body { min-height: 100vh; overflow-x: hidden; font-family: Arial, sans-serif; color: white; background: #111 url('bg2.png') center / cover fixed no-repeat; }
         body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: radial-gradient(circle at 18% 18%, rgba(92, 138, 255, 0.25), transparent 32%), linear-gradient(135deg, rgba(3, 5, 14, 0.72), rgba(3, 5, 14, 0.38) 48%, rgba(3, 5, 14, 0.82)); }
-        .nav-menu { position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; align-items: center; gap: 20px; min-height: 58px; background: rgba(0, 0, 0, 0.6); padding: 10px 25px; border-radius: 30px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-        .nav-menu a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; line-height: 20px; padding: 8px 15px; transition: background 0.3s ease, transform 0.2s ease; }
+        .nav-menu { position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 10; display: flex; gap: 20px; background: rgba(0, 0, 0, 0.6); padding: 10px 25px; border-radius: 30px; backdrop-filter: blur(8px); }
+        .nav-menu a { color: white; text-decoration: none; font-size: 16px; font-weight: bold; padding: 8px 15px; transition: background 0.3s ease, transform 0.2s ease; }
         .nav-menu a:hover, .nav-menu a.active { background: rgba(255, 255, 255, 0.2); border-radius: 20px; transform: scale(1.05); }
         .page-content { position: relative; z-index: 1; width: min(1100px, 92%); margin: 0 auto; padding: 132px 0 70px; }
         .hero { max-width: 760px; margin-bottom: 44px; }
@@ -38,10 +38,7 @@
         .contact-panel p { color: var(--muted); line-height: 1.5; }
         .cta-button { display: inline-block; flex-shrink: 0; padding: 13px 24px; color: #0d1220; font-weight: bold; text-decoration: none; border-radius: 24px; background: #dbe4ff; transition: transform 0.25s ease, background 0.25s ease; }
         .cta-button:hover { background: white; transform: translateY(-2px); }
-        .social-link { position: fixed; top: 30px; right: 28px; z-index: 10; display: grid; place-items: center; width: 92px; height: 92px; color: white; text-decoration: none; border: 1px solid var(--line); border-radius: 50%; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(8px); transition: background 0.25s ease, transform 0.25s ease; }
-        .social-link svg { width: 44px; height: 44px; fill: currentColor; }
-        .social-link:hover { background: rgba(255, 255, 255, 0.18); transform: translateY(-2px); }
-        @media (max-width: 760px) { .page-content { padding-top: 108px; } .project-grid, .process-grid { grid-template-columns: 1fr; } .section-heading { display: block; } .section-heading p { margin-top: 6px; } .contact-panel { display: block; } .cta-button { margin-top: 20px; } .social-link { top: 82px; right: 16px; } }
+        @media (max-width: 760px) { .page-content { padding-top: 108px; } .project-grid, .process-grid { grid-template-columns: 1fr; } .section-heading { display: block; } .section-heading p { margin-top: 6px; } .contact-panel { display: block; } .cta-button { margin-top: 20px; } }
     </style>
 </head>
 <body>
@@ -69,9 +66,6 @@
             <article class="glass-card process-card"><div class="process-number">03 / REVEAL</div><h3>Present the result</h3><p>You receive a considered final presentation with gallery views that show the work from every side.</p></article>
         </section>
         <section class="glass-card contact-panel"><div><h2>Have a character in mind?</h2><p>Tell us what you want to bring into focus and let’s make a model worth looking at twice.</p></div><a class="cta-button" href="prices.html">Explore the collection</a></section>
-        <a class="social-link" href="https://www.instagram.com/ForSWorks" target="_blank" rel="noopener noreferrer" aria-label="Follow ForSWorks on Instagram">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7.2 2h9.6A5.2 5.2 0 0 1 22 7.2v9.6a5.2 5.2 0 0 1-5.2 5.2H7.2A5.2 5.2 0 0 1 2 16.8V7.2A5.2 5.2 0 0 1 7.2 2zm0 1.8a3.4 3.4 0 0 0-3.4 3.4v9.6a3.4 3.4 0 0 0 3.4 3.4h9.6a3.4 3.4 0 0 0 3.4-3.4V7.2a3.4 3.4 0 0 0-3.4-3.4H7.2zm4.8 3.1a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2zm0 1.8a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6zm5.35-2.15a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
-        </a>
     </main>
 </body>
 </html>
